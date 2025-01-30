@@ -1,11 +1,13 @@
 import React, { useState, useRef } from "react";
 import { useChatStore } from "../store/useChatStore";
-import { Image, X, Send } from "lucide-react";
+import { Image, X, Send,Smile } from "lucide-react";
+import EmojiPicker from "emoji-picker-react";
 
 function MessageInput({ socket }) {
   const [text, setText] = useState(""); // Input text state
   const [imagePreview, setImagePreview] = useState(null); // Image preview state
   const { sendMessage } = useChatStore();
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false); // Emoji picker toggle
 
   const fileInputRef = useRef(null); // File input ref
 
@@ -23,6 +25,12 @@ function MessageInput({ socket }) {
   const removeImage = () => {
     setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  // Handle emoji selection
+  const handleEmojiClick = (emojiData) => {
+    setText((prev) => prev + emojiData.emoji);
+    setShowEmojiPicker(false);
   };
 
   // Handle message submission
@@ -65,6 +73,21 @@ function MessageInput({ socket }) {
       {/* Message Input Form */}
       <form onSubmit={handleSendMessage} className="flex items-center gap-3">
         <div className="flex-1 flex items-center gap-3">
+          {/* Emoji Picker Button */}
+          <button
+            type="button"
+            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+            className="btn text-gray-400 hover:text-yellow-400 p-2 rounded-lg"
+          >
+            <Smile size={20} />
+          </button>
+
+          {/* Emoji Picker */}
+          {showEmojiPicker && (
+            <div className="absolute bottom-16 left-5 z-50 bg-[#1a1a2e] p-2 rounded-md shadow-md">
+              <EmojiPicker onEmojiClick={handleEmojiClick} theme="dark" />
+            </div>
+          )}
           {/* Text Input */}
           <input
             type="text"
