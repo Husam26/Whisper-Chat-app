@@ -43,11 +43,11 @@ const HomePage = () => {
       </header>
 
       {/* Main Content */}
-      <div className="flex items-center justify-center pt-4 px-4">
+      <div className="flex flex-col md:flex-row items-center justify-center pt-4 px-4">
         <div className="bg-base-100 rounded-lg shadow-2xl w-full max-w-6xl h-[calc(100vh-8rem)]">
-          <div className="flex h-full">
+          <div className="flex flex-col md:flex-row h-full">
             {/* Left Sidebar */}
-            <div className="w-1/4 bg-gray-800 text-white">
+            <div className="w-full md:w-1/4 bg-gray-800 text-white">
               <Sidebar />
             </div>
 

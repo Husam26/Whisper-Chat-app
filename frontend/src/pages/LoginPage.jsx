@@ -11,6 +11,8 @@ const LoginPage = () => {
     password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);  // Added state for Show/Hide password
+
   const { login, isLoggingIn } = useAuthStore();
 
   const validateForm = () => {
@@ -37,7 +39,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className='min-h-screen grid lg:grid-cols-2'>
+    <div className='min-h-screen grid grid-cols-1 lg:grid-cols-2'>
       {/* Left side */}
       <div className='flex flex-col justify-center items-center p-6 sm:p-12'>
         <div className='w-full max-w-md space-y-8'>
@@ -83,12 +85,19 @@ const LoginPage = () => {
                   <Lock className="size-5 text-base-content/40" />
                 </div>
                 <input
-                  type='password'
+                  type={showPassword ? 'text' : 'password'} // Toggle between password and text type
                   className={`input input-bordered w-full pl-10`}
                   placeholder="********"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                >
+                  {showPassword ? 'Hide' : 'Show'} {/* Display Show or Hide depending on state */}
+                </button>
               </div>
             </div>
 
@@ -120,10 +129,22 @@ const LoginPage = () => {
       </div>
 
       {/* Right side */}
-      <AuthImagePattern
-        title="Welcome Back!"
-        subtitle="Log in to your account and continue where you left off"
-      />
+      <div className="lg:block hidden">
+        <AuthImagePattern
+          title="Welcome Back!"
+          subtitle="Log in to your account and continue where you left off"
+        />
+      </div>
+
+      {/* Mobile Right side - only show welcome text on small screens */}
+      <div className="lg:hidden flex justify-center items-center p-4 bg-primary/10 rounded-xl">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">Welcome Back!</h2>
+          <p className="text-sm text-base-content/60">
+            Log in to your account and continue where you left off
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

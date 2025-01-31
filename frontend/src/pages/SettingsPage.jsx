@@ -11,14 +11,14 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-8 py-10">
-      <h1 className="text-3xl font-semibold mb-4">Settings</h1>
+    <div className="flex flex-col items-center justify-center space-y-8 py-10 sm:py-12 lg:py-16">
+      <h1 className="text-3xl sm:text-4xl font-semibold mb-4 text-center">Settings</h1>
 
       {/* Theme Selection Dropdown */}
-      <div className="mb-8">
-        <label className="text-lg">Select Theme: </label>
+      <div className="mb-8 w-full sm:w-72 md:w-96">
+        <label className="text-lg sm:text-xl">Select Theme: </label>
         <select
-          className="p-2 mt-2 border rounded-lg"
+          className="w-full p-2 mt-2 border rounded-lg text-gray-700"
           value={theme}
           onChange={handleThemeChange}
         >
@@ -31,7 +31,7 @@ const SettingsPage = () => {
       </div>
 
       {/* Chat Theme Preview Section */}
-      <div className="w-full max-w-4xl h-[500px] bg-base-200 rounded-lg shadow-xl overflow-hidden transition-all duration-500 ease-in-out">
+      <div className="w-full max-w-4xl h-[500px] sm:h-[400px] lg:h-[500px] bg-base-200 rounded-lg shadow-xl overflow-hidden transition-all duration-500 ease-in-out">
         {/* Chat Container */}
         <div className="flex flex-col h-full bg-base-100">
           <div className="flex-grow p-4 overflow-y-scroll">
@@ -79,8 +79,8 @@ const SettingsPage = () => {
         </div>
       </div>
 
-      <div className="mt-6 text-center">
-        <p className="text-lg text-gray-500">
+      <div className="mt-6 text-center w-full px-4 sm:px-8 md:px-16">
+        <p className="text-lg sm:text-xl text-gray-500">
           Choose a theme and see how your chat experience changes! Each theme brings a new vibe to your app.
         </p>
       </div>

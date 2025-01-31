@@ -48,7 +48,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className='min-h-screen grid lg:grid-cols-2'>
+    <div className='min-h-screen grid grid-cols-1 lg:grid-cols-2'>
       {/* Left side */}
       <div className='flex flex-col justify-center items-center p-6 sm:p-12'>
         <div className='w-full max-w-md space-y-8'>
@@ -77,7 +77,7 @@ const SignUpPage = () => {
                 <input
                   type='text'
                   className={`input input-bordered w-full pl-10`}
-                  placeholder="FullName"
+                  placeholder="Full Name"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                 />
@@ -156,11 +156,23 @@ const SignUpPage = () => {
         </div>
       </div>
 
-      {/* Right side */}
-      <AuthImagePattern
-        title="Join Our community"
-        subtitle="Connect with friends, share moments, and stay in touch"
-      />
+      {/* Right side (only visible on larger screens) */}
+      <div className="lg:block hidden">
+        <AuthImagePattern
+          title="Join Our community"
+          subtitle="Connect with friends, share moments, and stay in touch"
+        />
+      </div>
+
+      {/* Mobile Right side - only show welcome text on small screens */}
+      <div className="lg:hidden flex justify-center items-center p-4 bg-primary/10 rounded-xl">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">Join Our Community</h2>
+          <p className="text-sm text-base-content/60">
+            Connect with friends, share moments, and stay in touch
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

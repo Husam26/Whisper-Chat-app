@@ -21,15 +21,17 @@ const ChatContainer = () => {
 
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   // Initialize socket
   const socket = useRef(null);
 
-  
   useEffect(() => {
     getMessages(selectedUser._id);
-    markMessagesAsRead(selectedUser._id);
     subscribeToMessages();
+    
+    // Mark messages as read when the component mounts
+    markMessagesAsRead(selectedUser._id);
 
     return () => unsubscribeFromMessages();
   }, [selectedUser, getMessages, markMessagesAsRead, subscribeToMessages, unsubscribeFromMessages]);
@@ -39,6 +41,18 @@ const ChatContainer = () => {
       messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
+
+  // Detect if user has scrolled to bottom & mark messages as read
+  const handleScroll = () => {
+    if (!chatContainerRef.current) return;
+  
+    const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+    const isAtBottom = scrollHeight - scrollTop <= clientHeight + 10;
+  
+    if (isAtBottom && selectedUser) {
+      markMessagesAsRead(selectedUser._id); // Ensure it sends correct user ID
+    }
+  };
 
   const handleClearChat = async () => {
     try {
@@ -52,7 +66,10 @@ const ChatContainer = () => {
     <div className="flex flex-col h-full bg-[#1a1a2e] text-white">
       <ChatHeader />
         
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4"
+      ref={chatContainerRef}
+      onScroll={handleScroll}
+      >
         {messages.length > 0 ? (
           messages.map((message) => (
             <div
@@ -84,6 +101,14 @@ const ChatContainer = () => {
                       className="max-w-full h-auto rounded-md"
                     />
                   </div>
+                )}
+                
+                {/* Add "Seen" or "Unread" based on message's read status for YOUR messages only */}
+                {message.senderId === authUser._id && message.isRead && (
+                  <div className="text-xs text-gray-400 mt-1">Seen</div>
+                )}
+                {message.senderId === authUser._id && !message.isRead && (
+                  <div className="text-xs text-gray-400 mt-1">Unread</div>
                 )}
               </div>
             </div>

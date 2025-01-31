@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useChatStore } from '../store/useChatStore';
-import SidebarSkeleton from './skeletons/SidebarSkeleton';
-import { Users, Search } from 'lucide-react';
-import { useAuthStore } from '../store/useAuthStore';
+import React, { useEffect, useState } from "react";
+import { useChatStore } from "../store/useChatStore";
+import SidebarSkeleton from "./skeletons/SidebarSkeleton";
+import { Users, Search, Menu } from "lucide-react"; // Import Menu icon for the hamburger
+import { useAuthStore } from "../store/useAuthStore";
 
 const Sidebar = () => {
-  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading, markMessagesAsRead } =
-    useChatStore();
+  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading, markMessagesAsRead } = useChatStore();
   const { onlineUsers } = useAuthStore();
 
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sidebarVisible, setSidebarVisible] = useState(true); // State to toggle sidebar visibility on small screens
 
   useEffect(() => {
     getUsers(); // Fetch users
@@ -18,7 +18,7 @@ const Sidebar = () => {
 
   const handleUserSelect = (user) => {
     setSelectedUser(user); // Update selected user
-    markMessagesAsRead(); // Mark messages as read for this user
+    markMessagesAsRead(user._id); // Mark messages as read for the selected user
   };
 
   const filteredUsers = users
@@ -28,7 +28,20 @@ const Sidebar = () => {
   if (isUsersLoading) return <SidebarSkeleton />;
 
   return (
-    <aside className="h-full w-72 border-r border-gray-700 bg-gray-800 text-white flex flex-col shadow-lg transition-all duration-300 ease-in-out">
+    <aside
+      className={`h-full transition-all duration-300 ease-in-out ${
+        sidebarVisible ? "w-72" : "w-0"
+      } lg:w-72 border-r border-gray-700 bg-gray-800 text-white flex flex-col shadow-lg fixed lg:relative top-0 left-0 bottom-0`}
+    >
+      {/* Hamburger Menu for Small Screens */}
+      <div
+        className="lg:hidden absolute top-4 left-4 p-2 rounded-full cursor-pointer text-white"
+        onClick={() => setSidebarVisible(!sidebarVisible)}
+      >
+        <Menu className="w-6 h-6" />
+      </div>
+
+      {/* Sidebar Header */}
       <div className="flex items-center justify-between p-5 bg-gray-900 border-b border-gray-700">
         <div className="flex items-center gap-2">
           <Users className="w-6 h-6 text-indigo-400" />
@@ -47,6 +60,7 @@ const Sidebar = () => {
         </div>
       </div>
 
+      {/* Search Box */}
       <div className="p-4 bg-gray-900 border-b border-gray-700">
         <div className="relative">
           <input
@@ -60,6 +74,7 @@ const Sidebar = () => {
         </div>
       </div>
 
+      {/* User List */}
       <div className="flex-1 overflow-y-auto px-4 py-3">
         {filteredUsers.length === 0 ? (
           <div className="text-center text-gray-400 mt-10">No users available</div>
@@ -69,12 +84,12 @@ const Sidebar = () => {
               key={user._id}
               onClick={() => handleUserSelect(user)}
               className={`w-full p-3 flex items-center gap-3 rounded-lg hover:bg-indigo-500 hover:ring-1 ring-indigo-400 transition-all ease-in-out ${
-                selectedUser?._id === user._id ? 'bg-indigo-600 ring-2 ring-indigo-500' : ''
+                selectedUser?._id === user._id ? "bg-indigo-600 ring-2 ring-indigo-500" : ""
               }`}
             >
               <div className="relative mx-auto lg:max-w-[50px]">
                 <img
-                  src={user.profilePic || '/avatar.png'}
+                  src={user.profilePic || "/avatar.png"}
                   alt={user.fullName}
                   className="w-12 h-12 object-cover rounded-full"
                 />
@@ -86,7 +101,7 @@ const Sidebar = () => {
               <div className="flex-1 ml-3">
                 <div className="font-medium text-lg text-indigo-100">{user.fullName}</div>
                 <div className="text-sm text-gray-400">
-                  {onlineUsers.includes(user._id) ? 'Online' : 'Offline'}
+                  {onlineUsers.includes(user._id) ? "Online" : "Offline"}
                 </div>
               </div>
             </button>

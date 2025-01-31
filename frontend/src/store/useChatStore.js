@@ -112,7 +112,7 @@ export const useChatStore = create((set, get) => ({
           ),
         });
   
-        toast.success("All messages from the selected user marked as read!");
+        
       } catch (error) {
         toast.error(error.response?.data?.message || "Failed to mark messages as read.");
       }
