@@ -16,9 +16,11 @@ const Sidebar = () => {
     getUsers(); // Fetch users
   }, [getUsers]);
 
-  const handleUserSelect = (user) => {
-    setSelectedUser(user); // Update selected user
-    markMessagesAsRead(user._id); // Mark messages as read for the selected user
+  const handleUserClick = (user) => {
+    markMessagesAsRead(user._id); // Mark messages as read every time
+    if (selectedUser?._id !== user._id) {
+      setSelectedUser(user);
+    }
   };
 
   const filteredUsers = users
@@ -82,7 +84,7 @@ const Sidebar = () => {
           filteredUsers.map((user) => (
             <button
               key={user._id}
-              onClick={() => handleUserSelect(user)}
+              onClick={() => handleUserClick(user)}
               className={`w-full p-3 flex items-center gap-3 rounded-lg hover:bg-indigo-500 hover:ring-1 ring-indigo-400 transition-all ease-in-out ${
                 selectedUser?._id === user._id ? "bg-indigo-600 ring-2 ring-indigo-500" : ""
               }`}
