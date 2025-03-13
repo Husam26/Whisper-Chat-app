@@ -16,12 +16,13 @@ const Sidebar = () => {
     getUsers(); // Fetch users
   }, [getUsers]);
 
-  const handleUserClick = (user) => {
-    markMessagesAsRead(user._id); // Mark messages as read every time
-    if (selectedUser?._id !== user._id) {
-      setSelectedUser(user);
-    }
-  };
+  const handleUserSelect = (user) => {
+  if (selectedUser?._id !== user._id) {
+    setSelectedUser(user);
+  }
+  markMessagesAsRead(user._id); // Always mark messages as read, even if the user is already selected
+};
+
 
   const filteredUsers = users
     .filter((user) => user.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -84,7 +85,7 @@ const Sidebar = () => {
           filteredUsers.map((user) => (
             <button
               key={user._id}
-              onClick={() => handleUserClick(user)}
+              onClick={() => handleUserSelect(user)}
               className={`w-full p-3 flex items-center gap-3 rounded-lg hover:bg-indigo-500 hover:ring-1 ring-indigo-400 transition-all ease-in-out ${
                 selectedUser?._id === user._id ? "bg-indigo-600 ring-2 ring-indigo-500" : ""
               }`}
