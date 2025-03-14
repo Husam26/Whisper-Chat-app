@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore.js';
 import { MessageSquare, User, Mail, Lock, Loader2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import AuthImagePattern from '../components/AuthImagePattern.jsx';
 import { toast } from 'react-hot-toast'; // Import toast for notifications
 
@@ -14,6 +14,7 @@ const SignUpPage = () => {
   });
 
   const { signup, isSigningUp } = useAuthStore();
+  const navigate = useNavigate(); // Initialize navigate hook
 
   const validateForm = () => {
     if (!formData.fullName.trim()) {
@@ -43,7 +44,13 @@ const SignUpPage = () => {
     const isValid = validateForm();
     if (isValid) {
       // Call the signup function if the form is valid
-      signup(formData);
+      try {
+        await signup(formData);
+        toast.success('Signup successful! Please log in.');
+        navigate('/login'); // Redirect to login page after successful signup
+      } catch (error) {
+        toast.error('Signup failed. Please try again.');
+      }
     }
   };
 
