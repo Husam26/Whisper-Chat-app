@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^1.7.9",
+    "chat-app": "file:..",
     "date-fns": "^4.1.0",
     "emoji-picker-react": "^4.12.0",
     "init": "^0.1.2",
