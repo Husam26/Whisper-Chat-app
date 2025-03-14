@@ -17,12 +17,11 @@ const Sidebar = () => {
   }, [getUsers]);
 
   const handleUserSelect = (user) => {
-  if (selectedUser?._id !== user._id) {
-    setSelectedUser(user);
-  }
-  markMessagesAsRead(user._id); // Always mark messages as read, even if the user is already selected
-};
-
+    if (selectedUser?._id !== user._id) {
+      setSelectedUser(user);
+    }
+    markMessagesAsRead(user._id); // Always mark messages as read, even if the user is already selected
+  };
 
   const filteredUsers = users
     .filter((user) => user.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -34,7 +33,7 @@ const Sidebar = () => {
     <aside
       className={`h-full transition-all duration-300 ease-in-out ${
         sidebarVisible ? "w-72" : "w-0"
-      } lg:w-72 border-r border-gray-700 bg-gray-800 text-white flex flex-col shadow-lg fixed lg:relative top-0 left-0 bottom-0`}
+      } lg:w-72 lg:block border-r border-gray-700 bg-gray-800 text-white flex flex-col shadow-lg fixed lg:relative top-0 left-0 bottom-0 z-50`}
     >
       {/* Hamburger Menu for Small Screens */}
       <div

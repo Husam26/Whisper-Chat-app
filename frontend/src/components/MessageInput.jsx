@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useChatStore } from "../store/useChatStore";
-import { Image, X, Send,Smile } from "lucide-react";
+import { Image, X, Send, Smile } from "lucide-react";
 import EmojiPicker from "emoji-picker-react";
 
 function MessageInput({ socket }) {
@@ -58,7 +58,7 @@ function MessageInput({ socket }) {
             <img
               src={imagePreview}
               alt="Preview"
-              className="w-20 h-20 object-cover rounded-lg border border-zinc-600"
+              className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-zinc-600"
             />
             <button
               onClick={removeImage}
@@ -71,7 +71,7 @@ function MessageInput({ socket }) {
       )}
 
       {/* Message Input Form */}
-      <form onSubmit={handleSendMessage} className="flex items-center gap-3">
+      <form onSubmit={handleSendMessage} className="flex flex-wrap items-center gap-3">
         <div className="flex-1 flex items-center gap-3">
           {/* Emoji Picker Button */}
           <button
@@ -84,10 +84,11 @@ function MessageInput({ socket }) {
 
           {/* Emoji Picker */}
           {showEmojiPicker && (
-            <div className="absolute bottom-16 left-5 z-50 bg-[#1a1a2e] p-2 rounded-md shadow-md">
+            <div className="absolute bottom-16 left-5 z-50 bg-[#1a1a2e] p-2 rounded-md shadow-md sm:left-10 lg:left-16">
               <EmojiPicker onEmojiClick={handleEmojiClick} theme="dark" />
             </div>
           )}
+
           {/* Text Input */}
           <input
             type="text"

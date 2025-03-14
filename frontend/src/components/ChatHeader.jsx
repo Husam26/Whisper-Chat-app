@@ -9,10 +9,10 @@ function ChatHeader() {
 
   return (
     <div className="p-4 border-b border-base-300 flex items-center justify-between bg-[#1a1a2e] text-white">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 flex-1">
         {/* Avatar */}
         <div className="relative">
-          <div className="w-12 h-12 rounded-full overflow-hidden">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full overflow-hidden">
             <img
               src={selectedUser.profilePic || '/avatar.png'}
               alt={selectedUser.fullName}
@@ -26,7 +26,7 @@ function ChatHeader() {
         </div>
 
         {/* User Info */}
-        <div>
+        <div className="hidden sm:block">
           <h3 className="text-lg font-semibold">{selectedUser.fullName}</h3>
           <p className="text-sm text-gray-400">
             {onlineUsers.includes(selectedUser._id) ? 'Online' : 'Offline'}
@@ -37,7 +37,7 @@ function ChatHeader() {
       {/* Close Button */}
       <button
         onClick={() => setSelectedUser(null)}
-        className="p-2 rounded-lg hover:bg-gray-700 transition duration-200 focus:outline-none"
+        className="p-2 rounded-lg hover:bg-gray-700 transition duration-200 focus:outline-none ml-auto sm:hidden"
       >
         <X className="w-6 h-6 text-gray-300 hover:text-white transition duration-200" />
       </button>

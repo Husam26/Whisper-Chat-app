@@ -66,7 +66,7 @@ const ChatContainer = () => {
     <div className="flex flex-col h-full bg-[#1a1a2e] text-white">
       <ChatHeader />
         
-      <div className="flex-1 overflow-y-auto p-4 space-y-4"
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 sm:p-6 md:p-8 lg:p-10"
       ref={chatContainerRef}
       onScroll={handleScroll}
       >
@@ -78,7 +78,7 @@ const ChatContainer = () => {
               ref={messageEndRef}
             >
               <div className="chat-image avatar">
-                <div className="w-10 h-10 rounded-full border overflow-hidden">
+                <div className="w-10 h-10 rounded-full border overflow-hidden sm:w-12 sm:h-12">
                   <img
                     src={message.senderId === authUser._id
                       ? authUser.profilePic || '/avatar.png'
@@ -88,13 +88,13 @@ const ChatContainer = () => {
                   />
                 </div>
               </div>
-              <div className="chat-content flex flex-col ml-3">
+              <div className="chat-content flex flex-col ml-3 sm:ml-4 md:ml-5">
                 <div className="chat-header mb-1">
                   <time className="text-xs opacity-50 ml-1">{formatDate(message.createdAt)}</time>
                 </div>
-                <div className="chat-bubble text-white max-w-[300px]">{message.text}</div>
+                <div className="chat-bubble text-white max-w-[300px] sm:max-w-[350px] md:max-w-[400px] lg:max-w-[450px]">{message.text}</div>
                 {message.image && (
-                  <div className="chat-image mt-2 max-w-[200px]">
+                  <div className="chat-image mt-2 max-w-[200px] sm:max-w-[250px] md:max-w-[300px]">
                     <img
                       src={message.image}
                       alt="attached"
@@ -118,7 +118,7 @@ const ChatContainer = () => {
         )}
       </div>
 
-      <div className="flex justify-between items-center p-4">
+      <div className="flex justify-between items-center p-4 sm:p-6 md:p-8">
         <button
           onClick={handleClearChat}
           className="btn btn-sm btn-danger text-white hover:bg-red-600 transition duration-200"
